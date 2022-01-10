@@ -1,12 +1,8 @@
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
@@ -25,8 +21,6 @@ public class JCanvas extends JPanel implements Engine, Direction{
     private Frame frame; //frame
 
     JCanvas(double width ,double height){
-        //super(width, height);
-        //System.out.println((int)width + " " + (int)height);
         this.setPreferredSize(new Dimension((int)width, (int)height));
         this.setMinimumSize(new Dimension((int)width, (int)height));
         //this.graphics = this.getGraphics(); //get graphics from canvas
@@ -40,39 +34,39 @@ public class JCanvas extends JPanel implements Engine, Direction{
     }
 
     //initial drawning
-    public void draw(){
-        //refresh();
-        drawSnake();
-        drawFood();
-        drawPause();
-    }
+//    public void draw(){
+//        refresh();
+//        drawSnake();
+//        drawFood();
+//        drawPause();
+//    }
 
     //draw snake
-    private void drawSnake(){
-        snake.drawSnake(getGraphics());
-    }
+//    private void drawSnake(){
+//        snake.drawSnake(getGraphics());
+//    }
 
     //draw food
-    private void drawFood(){
-        food.drawFood(getGraphics());
-    }
+//    private void drawFood(){
+//        food.drawFood(getGraphics());
+//    }
 
     //refresh whole board (after pause)
     //is useless due to paintComponent method and repaint()
-    private void refresh(){
-
-        Graphics2D g2d = (Graphics2D) getGraphics();
-        for(int row=0; row<width; row=row+pixels){
-            for(int col=0; col<height; col=col+pixels){
-                if(row <= 10 || row >= width-pixels*2 || col <= 10 || col >= height-pixels*2){
-                    g2d.setColor(Color.BLACK);
-                }else{
-                    g2d.setColor(Color.RED);
-                }
-                g2d.fillRect(row, col, pixels, pixels);
-            }
-        }
-    }
+//    private void refresh(){
+//
+//        Graphics2D g2d = (Graphics2D) getGraphics();
+//        for(int row=0; row<width; row=row+pixels){
+//            for(int col=0; col<height; col=col+pixels){
+//                if(row <= 10 || row >= width-pixels*2 || col <= 10 || col >= height-pixels*2){
+//                    g2d.setColor(Color.BLACK);
+//                }else{
+//                    g2d.setColor(Color.RED);
+//                }
+//                g2d.fillRect(row, col, pixels, pixels);
+//            }
+//        }
+//    }
 
     //set animation timer for speed of animation
     public void setTimer(){
@@ -92,6 +86,9 @@ public class JCanvas extends JPanel implements Engine, Direction{
                     score++;                //incrementation of score
                     //frame.setScore(score);  //set score number in frame
                     //frame.setColor(food.getColor());    //set food color in frame
+                    //frame.setInformation();
+
+                    frame.scorePane.repaint();
                 }
                 snake.drawSnake(getGraphics());   //draw snake
 
@@ -104,7 +101,6 @@ public class JCanvas extends JPanel implements Engine, Direction{
         };
 
         timer = new Timer(delay, taskTimer);
-        timer.start();
     }
 
     //set key event when key is pressed
@@ -138,44 +134,58 @@ public class JCanvas extends JPanel implements Engine, Direction{
 
                     if(flag == false && dead == false){ //if not pause
                         timer.stop(); //stop snake animation
-                        drawPause();
+                        drawPause((Graphics2D)getGraphics());
                         flag=true;
                     }else if(flag == true && dead == false){ //if pause
-                        //refresh();
                         repaint();
                         timer.start(); //start snake animation
                         flag=false;
                     }
                 }
-
-                System.out.println("siema");
             }
         });
     }
 
     //insted refresh method, to use that call repaint();
+    @Override
     public void paintComponent(Graphics gc){
         Graphics2D g2d = (Graphics2D) gc;
         super.paintComponent(gc);
 
-        for(int row=0; row<width; row=row+pixels){
-            for(int col=0; col<height; col=col+pixels){
-                if(row <= 10 || row >= width-pixels*2 || col <= 10 || col >= height-pixels*2){
-                    g2d.setColor(Color.BLACK);
-                }else{
-                    g2d.setColor(Color.GREEN);
-                }
-                g2d.fillRect(row, col, pixels, pixels);
-            }
-        }
+//        for(int row=0; row<width; row=row+pixels){
+//            for(int col=0; col<height; col=col+pixels){
+//                if(row <= 10 || row >= width-pixels*2 || col <= 10 || col >= height-pixels*2){
+//                    g2d.setColor(Color.BLACK);
+//                }else{
+//                    g2d.setColor(Color.GREEN);
+//                }
+//                g2d.fillRect(row, col, pixels, pixels);
+//            }
+//        }
+
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(0,0,600, 600);
+
+        g2d.setColor(Color.GREEN);
+        g2d.fillRect(pixels*2, pixels*2, (int)width-pixels*4, (int)height-pixels*4);
+
+        snake.drawSnake(g2d);
+        food.drawFood(g2d);
+
+        if(flag) drawPause(g2d);
     }
 
     //draw pause text
     public void drawPause(){
         Graphics2D g2d = (Graphics2D) getGraphics();
+        drawPause(g2d);
+    }
+
+    public void drawPause(Graphics2D g2d){
         g2d.setColor(Color.BLUE);
         //graphics.setFont(Font.font("Verdana", FontWeight.BOLD, 36));
-        g2d.drawString("Press ESC key to start", 80, 100);
+        g2d.setFont(new Font(null, Font.BOLD, 36));
+        g2d.drawString("Press ESC key to start", 100, 100);
     }
 
     //draw game over
@@ -183,7 +193,8 @@ public class JCanvas extends JPanel implements Engine, Direction{
         Graphics2D g2d = (Graphics2D) getGraphics();
         g2d.setColor(Color.RED);
         //graphics.setFont(Font.font("Verdana", FontWeight.BOLD, 36));
-        g2d.drawString("Game Over!", 180, 100);
+        g2d.setFont(new Font(null, Font.BOLD, 36));
+        g2d.drawString("Game Over!", 200, 100);
     }
 
     //set food location, color and clear last food position
@@ -233,5 +244,9 @@ public class JCanvas extends JPanel implements Engine, Direction{
     //set Frame (BorderPane) for easy access to setScore and setFood
     public void setFrame(Frame frame){
         this.frame=frame;
+    }
+
+    public int getScore(){
+        return score;
     }
 }

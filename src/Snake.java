@@ -1,6 +1,4 @@
 import java.util.LinkedList;
-//import javafx.scene.canvas.GraphicsContext;
-//import javafx.scene.paint.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;

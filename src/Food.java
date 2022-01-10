@@ -1,5 +1,3 @@
-//import javafx.scene.canvas.GraphicsContext;
-//import javafx.scene.paint.Color;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -71,7 +69,7 @@ public class Food extends Vector{
     }
 
     //clear last food position
-    public void clearFood(Graphics gc){
+    public void clearFood(Graphics2D gc){
         gc.setColor(Color.GREEN);
         gc.fillRect((int)getX(), (int)getY(), (int)pixels, (int)pixels);
     }
