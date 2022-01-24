@@ -1,6 +1,11 @@
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import java.awt.*;
+//import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionListener;
@@ -42,14 +47,26 @@ public class JCanvas extends JPanel implements Engine, Direction{
 //    }
 
     //draw snake
-//    private void drawSnake(){
-//        snake.drawSnake(getGraphics());
-//    }
+    private void drawSnake(){
+        snake.drawSnake(getGraphics());
+    }
+
+    private void drawDeadHead(){
+        snake.drawDeadHead(getGraphics());
+    }
+
+    private void clearLastRect(){
+        snake.clearLast(getGraphics());
+    }
 
     //draw food
-//    private void drawFood(){
-//        food.drawFood(getGraphics());
-//    }
+    private void drawFood(){
+        food.drawFood(getGraphics());
+    }
+
+    private void repaintFrame(){
+        frame.scorePane.repaint();
+    }
 
     //refresh whole board (after pause)
     //is useless due to paintComponent method and repaint()
@@ -76,9 +93,11 @@ public class JCanvas extends JPanel implements Engine, Direction{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //refresh();
-                food.drawFood(getGraphics()); //draw food
+                //food.drawFood(getGraphics()); //draw food
+                drawFood(); //draw food
+
                 dead = snake.move();    //move snake and check if is dead
-                snake.clearLast(getGraphics());   //clear last position of snakes tail instead refreshing whole board
+                clearLastRect();   //clear last position of snakes tail instead refreshing whole board
 
                 if(snake.isEaten(food)){    //do if when food is eaten
                     snake.grow();           //grow snake
@@ -88,13 +107,15 @@ public class JCanvas extends JPanel implements Engine, Direction{
                     //frame.setColor(food.getColor());    //set food color in frame
                     //frame.setInformation();
 
-                    frame.scorePane.repaint();
+                    repaintFrame();
                 }
-                snake.drawSnake(getGraphics());   //draw snake
+                //snake.drawSnake(getGraphics());   //draw snake
+                drawSnake();
 
                 if(dead){   //if is dead then stop animation
                     timer.stop(); //stop animation
-                    snake.drawDeadHead(getGraphics());    //draw collision
+                    //snake.drawDeadHead(getGraphics());    //draw collision
+                    drawDeadHead(); //draw collision
                     drawGameOver();
                 }
             }
@@ -181,6 +202,7 @@ public class JCanvas extends JPanel implements Engine, Direction{
         drawPause(g2d);
     }
 
+    //draw pause text
     public void drawPause(Graphics2D g2d){
         g2d.setColor(Color.BLUE);
         //graphics.setFont(Font.font("Verdana", FontWeight.BOLD, 36));

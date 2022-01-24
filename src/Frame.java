@@ -1,5 +1,12 @@
 import javax.swing.JPanel;
-import java.awt.*;
+//import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Dimension;
 
 public class Frame extends JPanel{
 
