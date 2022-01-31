@@ -193,7 +193,13 @@ public class JCanvas extends JPanel implements Engine, Direction{
         snake.drawSnake(g2d);
         food.drawFood(g2d);
 
-        if(flag) drawPause(g2d);
+        if(flag) {
+            drawPause(g2d);
+        }
+
+//        drawSnake();
+//        drawFood();
+//        if(flag) drawPause();
     }
 
     //draw pause text

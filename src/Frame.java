@@ -1,12 +1,6 @@
 import javax.swing.JPanel;
 //import java.awt.*;
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Dimension;
+import java.awt.*;
 
 public class Frame extends JPanel{
 
@@ -42,6 +36,10 @@ public class Frame extends JPanel{
                 g2d.draw(border1);
 
                 //set part of logo - without CSS
+
+                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
                 String snake = new String("Snake");
                 g2d.setFont(new Font(null, Font.BOLD, 36));
                 g2d.setColor(new Color(0,255,120));
@@ -83,6 +81,9 @@ public class Frame extends JPanel{
                 g2d.setColor(Color.WHITE);
                 g2d.fill(border1);
                 g2d.draw(border1);
+
+                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
                 g2d.setColor(board.food.getColor());
                 g2d.fillRect(75,290,50,50);
