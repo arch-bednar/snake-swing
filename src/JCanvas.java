@@ -55,6 +55,11 @@ public class JCanvas extends JPanel implements Engine, Direction{
         snake.drawDeadHead(getGraphics());
     }
 
+    private void drawSnake(Graphics2D g2d){
+        snake.drawSnake(g2d);
+    }
+
+
     private void clearLastRect(){
         snake.clearLast(getGraphics());
     }
@@ -62,6 +67,10 @@ public class JCanvas extends JPanel implements Engine, Direction{
     //draw food
     private void drawFood(){
         food.drawFood(getGraphics());
+    }
+
+    private void drawFood(Graphics2D g2d){
+        snake.drawDeadHead(g2d);
     }
 
     private void repaintFrame(){
@@ -190,8 +199,11 @@ public class JCanvas extends JPanel implements Engine, Direction{
         g2d.setColor(Color.GREEN);
         g2d.fillRect(pixels*2, pixels*2, (int)width-pixels*4, (int)height-pixels*4);
 
-        snake.drawSnake(g2d);
-        food.drawFood(g2d);
+//        snake.drawSnake(g2d);
+//        food.drawFood(g2d);
+
+        drawSnake(g2d);
+        drawFood(g2d);
 
         if(flag) {
             drawPause(g2d);
